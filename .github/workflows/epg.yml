@@ -36,14 +36,11 @@ jobs:
 
       - name: Pick a guide source per channel
         working-directory: epg
-        run: |
-          node ../select.js "$PLAYLIST" custom.channels.xml
-          # musor.tv answers 403 to the full Chrome user agent in iptv-org's config
-          sed -i "s#'Mozilla/5.0 (Windows[^']*'#'Mozilla/5.0 (compatible; lgtv-epg)'#" sites/musor.tv/musor.tv.config.js
+        run: node ../select.js "$PLAYLIST" custom.channels.xml
 
       - name: Grab
         working-directory: epg
-        run: npm run grab -- --channels=custom.channels.xml --output=guide.xml --maxConnections=5
+        run: npm run grab -- --channels=custom.channels.xml --output=guide.xml --days=2 --maxConnections=5
 
       # CleanYourTV reads the guide line by line and wants channel= before start=, with title and desc on their own lines
       - name: Reformat for CleanYourTV
