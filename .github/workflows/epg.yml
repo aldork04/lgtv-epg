@@ -38,6 +38,8 @@ jobs:
         run: |
           mkdir site
           node playlist.js "$PLAYLIST" channels.txt site/playlist.m3u "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/guide.xml"
+          # some players (UHF on Apple TV) only accept an address ending in .m3u8
+          cp site/playlist.m3u site/playlist.m3u8
 
       - name: Pick a guide source per channel
         working-directory: epg
