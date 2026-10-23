@@ -13,5 +13,10 @@ guide reader expects that layout.
 It also publishes `https://aldork04.github.io/lgtv-epg/playlist.m3u`: only the channels listed in `channels.txt`, in that
 order (the order is the channel number on the TV), with the guide address in its header. The guide covers these channels.
 
+M1, M2, Duna, M5 and Duna World come from MédiaKlikk's official streams instead (`overrides.m3u`). Their address has a
+short-lived token bound to the home IP, so `tv/mk-resolver.js` runs on the rooted TV (port 8790, started at boot by
+`tv/20-mk-resolver` in `/var/lib/webosbrew/init.d/`) and redirects to a fresh one at play time. The TV has to be on and
+keep the address 192.168.1.146.
+
 Change the channels or their order: edit `channels.txt`. Another source playlist: change `PLAYLIST` in
 `.github/workflows/epg.yml`.

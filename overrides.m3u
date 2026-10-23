@@ -1,0 +1,13 @@
+#EXTM3U
+# Entries here replace the source playlist's entries with the same tvg-id. These are MédiaKlikk's official streams,
+# through tv/mk-resolver.js on the TV (its address must stay 192.168.1.146: reserve it in the router).
+#EXTINF:-1 tvg-id="M1.hu@HD" tvg-logo="https://i.imgur.com/r4tgKZK.png" group-title="News",M1
+http://192.168.1.146:8790/m1.m3u8
+#EXTINF:-1 tvg-id="M2.hu@SD" tvg-logo="https://i.imgur.com/B0nYT0l.png" group-title="Entertainment",M2
+http://192.168.1.146:8790/m2.m3u8
+#EXTINF:-1 tvg-id="Duna.hu@SD" tvg-logo="https://i.imgur.com/oPbsSlp.png" group-title="General",Duna
+http://192.168.1.146:8790/duna.m3u8
+#EXTINF:-1 tvg-id="M5.hu@SD" tvg-logo="https://i.imgur.com/y21wFd0.png" group-title="Education",M5
+http://192.168.1.146:8790/m5.m3u8
+#EXTINF:-1 tvg-id="DunaWorld.hu@SD" tvg-logo="https://i.imgur.com/uOBQJZS.png" group-title="General",Duna World
+http://192.168.1.146:8790/dunaworld.m3u8

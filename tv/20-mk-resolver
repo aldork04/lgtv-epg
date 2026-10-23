@@ -1,0 +1,4 @@
+#!/bin/sh
+# Homebrew Channel boot hook: start the MédiaKlikk resolver (tv/mk-resolver.js). Remove this link to turn it off.
+export PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH
+pgrep -f '^node /media/developer/mk-resolver/' >/dev/null || (nohup node /media/developer/mk-resolver/mk-resolver.js >/tmp/mk-resolver.log 2>&1 </dev/null &)
