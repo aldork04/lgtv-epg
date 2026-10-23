@@ -10,4 +10,8 @@ GitHub's runners), the grabber downloads two days, and the result is published a
 The programmes are rewritten with `channel=` first and the title and description on their own lines, because CleanYourTV's
 guide reader expects that layout.
 
-Another playlist: change `PLAYLIST` in `.github/workflows/epg.yml`.
+It also publishes `https://aldork04.github.io/lgtv-epg/playlist.m3u`: only the channels listed in `channels.txt`, in that
+order (the order is the channel number on the TV), with the guide address in its header. The guide covers these channels.
+
+Change the channels or their order: edit `channels.txt`. Another source playlist: change `PLAYLIST` in
+`.github/workflows/epg.yml`.

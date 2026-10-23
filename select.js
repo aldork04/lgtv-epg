@@ -1,5 +1,5 @@
 // Picks one iptv-org/epg source per channel of an M3U playlist and writes a channels.xml for `npm run grab`.
-// Usage (from the iptv-org/epg checkout): node select.js <playlist-url> <output.xml>
+// Usage (from the iptv-org/epg checkout): node select.js <playlist-url-or-file> <output.xml>
 const fs = require('fs'), path = require('path');
 
 // Sites tried first, in this order; any other site that knows the channel comes after.
@@ -13,7 +13,7 @@ const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/\(.*?\)|\[.*?\]/g, '').replace(/\b(hd|fhd|uhd|4k|hungary|magyar|hungarian)\b/g, '').replace(/[^a-z0-9+]/g, '');
 
 async function main([playlistUrl, out = 'custom.channels.xml']) {
-  const m3u = await (await fetch(playlistUrl)).text();
+  const m3u = /^https?:/.test(playlistUrl) ? await (await fetch(playlistUrl)).text() : fs.readFileSync(playlistUrl, 'utf8');
   const ids = new Set(), names = new Map();   // normalized name -> set of ids
   const addName = (n, id) => { n = norm(n); if (n) (names.get(n) || names.set(n, new Set()).get(n)).add(id); };
   for (const m of m3u.matchAll(/tvg-id="([^"]+)"[^\n]*,([^\n]*)/g)) { ids.add(m[1]); addName(m[2], m[1]); }

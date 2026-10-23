@@ -34,9 +34,14 @@ jobs:
       - run: npm ci
         working-directory: epg
 
+      - name: Build playlist.m3u from channels.txt
+        run: |
+          mkdir site
+          node playlist.js "$PLAYLIST" channels.txt site/playlist.m3u "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/guide.xml"
+
       - name: Pick a guide source per channel
         working-directory: epg
-        run: node ../select.js "$PLAYLIST" custom.channels.xml
+        run: node ../select.js ../site/playlist.m3u custom.channels.xml
 
       - name: Grab
         working-directory: epg
@@ -45,7 +50,6 @@ jobs:
       # CleanYourTV reads the guide line by line and wants channel= before start=, with title and desc on their own lines
       - name: Reformat for CleanYourTV
         run: |
-          mkdir site
           sed -e 's#<programme start="\([^"]*\)" stop="\([^"]*\)" channel="\([^"]*\)">#<programme channel="\3" start="\1" stop="\2">\n#' \
               -e 's#</title>#</title>\n#g; s#</desc>#</desc>\n#g' epg/guide.xml > site/guide.xml
           n=$(grep -c '<programme' site/guide.xml || true)

@@ -1,0 +1,54 @@
+# The channels of playlist.m3u, in this order (the order is the channel number on the TV).
+# One iptv-org tvg-id per line; lines starting with # are ignored. Ids: https://iptv-org.github.io/iptv/languages/hun.m3u
+
+# Közszolgálati
+M1.hu@HD
+M2.hu@SD
+Duna.hu@SD
+M4Sport.hu@SD
+M5.hu@SD
+DunaWorld.hu@SD
+
+# Kereskedelmi
+RTL.hu@SD
+TV2.hu@SD
+RTLKetto.hu@SD
+SuperTV2.hu@SD
+RTLHarom.hu@SD
+TV2Comedy.hu@SD
+Viasat3.hu@SD
+Viasat6.hu@SD
+Viasat2.hu@SD
+TV4.hu@SD
+Story4.hu@SD
+Prime.hu@SD
+Galaxy4.hu@SD
+FEM3.hu@SD
+RTLGold.hu@SD
+RTLOtthon.hu@SD
+ATV.hu@SD
+
+# Sport
+Sport1.hu@SD
+Sport2.hu@SD
+Spiler1.hu@SD
+Spiler2.hu@SD
+Arena4.hu@SD
+Match4.hu@SD
+Eurosport1.fr@Hungary
+Eurosport2.fr@Hungary
+
+# Film, sorozat
+MoziPlus.hu@SD
+FilmPlus.hu@SD
+Film4.hu@SD
+MAX4.hu@SD
+AXNCEE.es@Hungary
+FilmCafe.hu@Hungary
+Moziverzum.hu@SD
+IzauraTV.hu@SD
+SorozatPlus.hu@SD
+LifeTV.hu@SD
+
+# Hír
+EuronewsHungarian.fr@SD
