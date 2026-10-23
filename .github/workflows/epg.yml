@@ -1,0 +1,71 @@
+name: EPG
+
+on:
+  schedule:
+    - cron: '0 3,15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  PLAYLIST: https://iptv-org.github.io/iptv/languages/hun.m3u
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: iptv-org/epg
+          path: epg
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: epg/package-lock.json
+      - run: npm ci
+        working-directory: epg
+
+      - name: Pick a guide source per channel
+        working-directory: epg
+        run: |
+          node ../select.js "$PLAYLIST" custom.channels.xml
+          # musor.tv answers 403 to the full Chrome user agent in iptv-org's config
+          sed -i "s#'Mozilla/5.0 (Windows[^']*'#'Mozilla/5.0 (compatible; lgtv-epg)'#" sites/musor.tv/musor.tv.config.js
+
+      - name: Grab
+        working-directory: epg
+        run: npm run grab -- --channels=custom.channels.xml --output=guide.xml --maxConnections=5
+
+      # CleanYourTV reads the guide line by line and wants channel= before start=, with title and desc on their own lines
+      - name: Reformat for CleanYourTV
+        run: |
+          mkdir site
+          sed -e 's#<programme start="\([^"]*\)" stop="\([^"]*\)" channel="\([^"]*\)">#<programme channel="\3" start="\1" stop="\2">\n#' \
+              -e 's#</title>#</title>\n#g; s#</desc>#</desc>\n#g' epg/guide.xml > site/guide.xml
+          n=$(grep -c '<programme' site/guide.xml || true)
+          echo "$n programmes"
+          # keep the previous guide online rather than publishing an empty one
+          test "$n" -gt 0
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}guide.xml
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
